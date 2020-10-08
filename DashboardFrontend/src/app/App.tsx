@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import {
   Route,
-  Switch
+  Switch, Redirect, RouteComponentProps
 } from 'react-router-dom';
 import AppHeader from '../common/AppHeader';
-import Home from '../home/Home';
+import Metrics from '../metrics/Metrics';
+import Admin from '../adminRights/AdminRights';
 import Login from '../user/login/Login';
 import Signup from '../user/signup/Signup';
 import Profile from '../user/profile/Profile';
@@ -18,34 +19,48 @@ import Alert from 'react-s-alert';
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
 import './App.css';
-
+import { login } from '../util/APIUtils';
 
 interface AppState {
-
   authenticated: boolean,
   currentUser: string,
   loading: boolean
-
 }
-
-class App extends Component {
+interface Props extends RouteComponentProps<any> {
+  /* Parent component's props*/
+}
+class App extends React.Component<Props, {}> {
   constructor(props: any) {
     super(props);
-
-    this.loadCurrentlyLoggedInUser = this.loadCurrentlyLoggedInUser.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
   }
   state: AppState = {
     authenticated: false,
     currentUser: '',
-    loading: false
+    loading: false,
+  }
+
+  componentDidUpdate() {
+
+  }
+
+  login(loginRequest: object): Promise<any> {
+
+    return login(loginRequest)
+      .then((response) => {
+        localStorage.setItem(ACCESS_TOKEN, response.accessToken);
+        this.getUser();
+        Alert.success("You're successfully logged in!");
+      });
   }
 
   loadCurrentlyLoggedInUser() {
-    this.setState({
-      loading: true
-    });
+    console.log('loadCurrentlyLoggedInUser: ');
+    this.setState({ loading: true });
+    this.getUser();
+  }
 
+  getUser() {
     getCurrentUser()
       .then(response => {
         this.setState({
@@ -53,10 +68,12 @@ class App extends Component {
           authenticated: true,
           loading: false
         });
+        console.log('response: ', response);
       }).catch(error => {
         this.setState({
           loading: false
         });
+        console.warn(error);
       });
   }
 
@@ -77,7 +94,6 @@ class App extends Component {
     if (this.state.loading) {
       return <LoadingIndicator />
     }
-
     return (
       <div className="app">
         <div className="app-top-box">
@@ -85,11 +101,13 @@ class App extends Component {
         </div>
         <div className="app-body">
           <Switch>
-            <Route exact path="/" component={Home}></Route>
+            <Redirect exact from="/" to="login" />
+            <PrivateRoute exact path="/metrics"  /* data={[5,10,1,3]} size={[500,500]} */ authenticated={this.state.authenticated} component={Metrics}></PrivateRoute>
+            <PrivateRoute path="/admin" authenticated={this.state.authenticated} component={Admin} {...this.props} ></PrivateRoute>
             <PrivateRoute path="/profile" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
               component={Profile}></PrivateRoute>
             <Route path="/login"
-              render={(props) => <Login authenticated={this.state.authenticated} {...props} />}></Route>
+              render={(props) => <Login authenticated={this.state.authenticated} login={this.login.bind(this)} {...props} />}></Route>
             <Route path="/signup"
               render={(props) => <Signup authenticated={this.state.authenticated} {...props} />}></Route>
             <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>

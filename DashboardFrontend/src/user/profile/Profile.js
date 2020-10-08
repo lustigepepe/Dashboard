@@ -6,6 +6,14 @@ class Profile extends Component {
         super(props);
         console.log(props);
     }
+
+
+    componentDidUpdate() {
+
+        console.log('Profile componentDidUpdate : ', this.props.currentUser);
+        console.log('Profile componentDidUpdate : ', this.props.currentUser.name);
+    
+      }
     render() {
         return (
             <div className="profile-container">

@@ -10,41 +10,21 @@ import Alert from 'react-s-alert';
 
 class Signup extends Component {
     render() {
-        if(this.props.authenticated) {
+        if (this.props.authenticated) {
             return <Redirect
                 to={{
-                pathname: "/",
-                state: { from: this.props.location }
-            }}/>;            
+                    pathname: "/metrics",
+                    state: { from: this.props.location }
+                }} />;
         }
 
         return (
             <div className="signup-container">
                 <div className="signup-content">
-                    <h1 className="signup-title">Signup with SpringSocial</h1>
-                    <SocialSignup />
-                    <div className="or-separator">
-                        <span className="or-text">OR</span>
-                    </div>
+                    <h1 className="signup-title">Create your Urban Media Account</h1>
                     <SignupForm {...this.props} />
                     <span className="login-link">Already have an account? <Link to="/login">Login!</Link></span>
                 </div>
-            </div>
-        );
-    }
-}
-
-
-class SocialSignup extends Component {
-    render() {
-        return (
-            <div className="social-signup">
-                <a className="btn btn-block social-btn google" href={GOOGLE_AUTH_URL}>
-                    <img src={googleLogo} alt="Google" /> Sign up with Google</a>
-                <a className="btn btn-block social-btn facebook" href={FACEBOOK_AUTH_URL}>
-                    <img src={fbLogo} alt="Facebook" /> Sign up with Facebook</a>
-                <a className="btn btn-block social-btn github" href={GITHUB_AUTH_URL}>
-                    <img src={githubLogo} alt="Github" /> Sign up with Github</a>
             </div>
         );
     }
@@ -56,7 +36,8 @@ class SignupForm extends Component {
         this.state = {
             name: '',
             email: '',
-            password: ''
+            password: '',
+            repeat_password: ''
         }
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -64,50 +45,63 @@ class SignupForm extends Component {
 
     handleInputChange(event) {
         const target = event.target;
-        const inputName = target.name;        
+        const inputName = target.name;
         const inputValue = target.value;
 
         this.setState({
-            [inputName] : inputValue
-        });        
+            [inputName]: inputValue
+        });
     }
 
     handleSubmit(event) {
-        event.preventDefault();   
-
-        const signUpRequest = Object.assign({}, this.state);
-
+        event.preventDefault();
+        var signUpRequest = '';
+        if (this.state.password === this.state.repeat_password) {
+             signUpRequest = {
+                name: this.state.name,
+                email: this.state.email,
+                password: this.state.password
+            };
+        } else {
+            Alert.error('The Passwords are not identical');
+            return;
+        }
         signup(signUpRequest)
-        .then(response => {
-            Alert.success("You're successfully registered. Please login to continue!");
-            this.props.history.push("/login");
-        }).catch(error => {
-            Alert.error((error && error.message) || 'Oops! Something went wrong. Please try again!');            
-        });
+            .then(response => {
+                Alert.success("You're successfully registered. Please login to continue!");
+                this.props.history.push("/login");
+            }).catch(error => {
+                Alert.error((error && error.message) || 'Oops! Something went wrong. Please try again!');
+            });
     }
 
     render() {
         return (
             <form onSubmit={this.handleSubmit}>
                 <div className="form-item">
-                    <input type="text" name="name" 
+                    <input type="text" name="name"
                         className="form-control" placeholder="Name"
-                        value={this.state.name} onChange={this.handleInputChange} required/>
+                        value={this.state.name} onChange={this.handleInputChange} required />
                 </div>
                 <div className="form-item">
-                    <input type="email" name="email" 
+                    <input type="email" name="email"
                         className="form-control" placeholder="Email"
-                        value={this.state.email} onChange={this.handleInputChange} required/>
+                        value={this.state.email} onChange={this.handleInputChange} required />
                 </div>
                 <div className="form-item">
-                    <input type="password" name="password" 
+                    <input type="password" name="password"
                         className="form-control" placeholder="Password"
-                        value={this.state.password} onChange={this.handleInputChange} required/>
+                        value={this.state.password} onChange={this.handleInputChange} required />
+                </div>
+                <div className="form-item">
+                    <input type="password" name="repeat_password"
+                        className="form-control" placeholder="Repeat password"
+                        value={this.state.repeat_password} onChange={this.handleInputChange} required />
                 </div>
                 <div className="form-item">
                     <button type="submit" className="btn btn-block btn-primary" >Sign Up</button>
                 </div>
-            </form>                    
+            </form>
 
         );
     }
