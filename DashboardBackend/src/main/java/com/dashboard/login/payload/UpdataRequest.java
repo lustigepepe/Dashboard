@@ -1,18 +1,25 @@
 package com.dashboard.login.payload;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 
-public class SignUpRequest {
-	@NotBlank
+public class UpdataRequest {
+	
 	private String name;
 
-	@NotBlank
 	@Email
 	private String email;
 
-	@NotBlank
 	private String password;
+	
+	private Boolean root;
+
+	public Boolean getRoot() {
+		return root;
+	}
+
+	public void setRoot(Boolean root) {
+		this.root = root;
+	}
 
 	public String getName() {
 		return name;
@@ -37,4 +44,6 @@ public class SignUpRequest {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	
 }

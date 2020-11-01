@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { basicBlue } from './ColorConstants'
 
 // export const HH = styled.div<{ height: string }>` font-size: ${props => props.height}`;
 // export const SliderInput = styled.input < {thumpColor?: string}> `

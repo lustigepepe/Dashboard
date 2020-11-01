@@ -18,7 +18,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.dashboard.login.security.CustomUserDetailsService;
 import com.dashboard.login.security.RestAuthenticationEntryPoint;
 import com.dashboard.login.security.TokenAuthenticationFilter;
-import com.dashboard.login.security.oauth2.CustomOAuth2UserService;
 import com.dashboard.login.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.dashboard.login.security.oauth2.OAuth2AuthenticationFailureHandler;
 import com.dashboard.login.security.oauth2.OAuth2AuthenticationSuccessHandler;
@@ -34,9 +33,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
-
-    @Autowired
-    private CustomOAuth2UserService customOAuth2UserService;
 
     @Autowired
     private OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
@@ -124,7 +120,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .baseUri("/oauth2/callback/*")
                         .and()
                     .userInfoEndpoint()
-                        .userService(customOAuth2UserService)
                         .and()
                     .successHandler(oAuth2AuthenticationSuccessHandler)
                     .failureHandler(oAuth2AuthenticationFailureHandler);

@@ -1,16 +1,18 @@
 import styled from 'styled-components'
-import { basicWhite } from './ColorConstants'
+import { basicWhite } from './StyleConstants'
 
-const StandardLayout = styled.div<{ bColor?: string, wrap?: string, top?: string, minWidth?: string }>`
+const StandardLayout = styled.div<{ bColor?: string, direction?: string, top?: string, minWidth?: string }>`
     margin-top: ${props => props.top ? props.top : '50px'};
     display: flex;
     justify-content: center;
     min-width: ${props => props.minWidth ? props.minWidth : null};
-    // flex-wrap: ${props => props.wrap ? props.wrap : 'nowrap'};
+    // flex-wrap: ${props => props.direction ? props.direction : 'nowrap'};
     background-color: ${ props => props.bColor ? props.bColor : basicWhite};
     @media(max-width: 1290px) {
-        flex-direction: ${ props => props.wrap ? props.wrap : null};
-        transition: flex - direction 2s east -in -out;
+        flex-direction: ${ props => props.direction ? props.direction : null};
+        // flex-direction: ${ props => props.direction ? 'column' : null};
+        align-items: center;
+        transition: flex-direction 2s east-in-out;
     }
 
 `;

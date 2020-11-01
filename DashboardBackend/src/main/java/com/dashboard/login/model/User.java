@@ -42,8 +42,19 @@ public class User {
     private AuthProvider provider;
 
     private String providerId;
+    
+    @Column(columnDefinition = "boolean default false")
+    private Boolean root;
 
-    public Long getId() {
+    public Boolean getRoot() {
+		return root;
+	}
+
+	public void setRoot(Boolean root) {
+		this.root = root;
+	}
+
+	public Long getId() {
         return id;
     }
 

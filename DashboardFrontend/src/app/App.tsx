@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Route,
   Switch, Redirect, RouteComponentProps
 } from 'react-router-dom';
 import AppHeader from '../common/AppHeader';
 import Metrics from '../metrics/Metrics';
-import Admin from '../adminRights/AdminRights';
+import Admin from '../user/adminRights/AdminRights';
 import Login from '../user/login/Login';
 import Signup from '../user/signup/Signup';
 import Profile from '../user/profile/Profile';
@@ -55,7 +55,7 @@ class App extends React.Component<Props, {}> {
   }
 
   loadCurrentlyLoggedInUser() {
-    console.log('loadCurrentlyLoggedInUser: ');
+    // console.log('loadCurrentlyLoggedInUser: ');
     this.setState({ loading: true });
     this.getUser();
   }
@@ -68,7 +68,7 @@ class App extends React.Component<Props, {}> {
           authenticated: true,
           loading: false
         });
-        console.log('response: ', response);
+        // console.log('response: ', response);
       }).catch(error => {
         this.setState({
           loading: false

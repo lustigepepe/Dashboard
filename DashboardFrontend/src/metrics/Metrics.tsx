@@ -1,7 +1,7 @@
-import React, { Component, useState, useEffect, useRef } from 'react';
+import React, {  useState, useEffect, useRef } from 'react';
 import './Metrics.css';
 import { StandardLayout, VerticalLayout } from '../styledComponent/SideLayout';
-import { basicBlue, basicWhite, basicGold } from '../styledComponent/ColorConstants';
+import { BASIC_BLUE, basicWhite, BASIC_GOLD } from '../styledComponent/StyleConstants';
 import { SliderInput } from '../styledComponent/Inputs';
 import styled from 'styled-components'
 
@@ -14,9 +14,8 @@ import { select } from 'd3-selection';
 import * as d3 from "d3";
 import thresholds from '../data/thresholds.json';
 import data1 from '../data/data.json';
-import { render } from 'react-dom';
-import { CheckboxWrapper } from '../styledComponent/Atoms';
-import { CheckboxFilter, CheckboxBlock } from '../styledComponent/Molecule/Filter';
+
+import { CheckboxFilter } from '../styledComponent/Molecule/Filter';
 import { Checkboxes } from '../styledComponent/Molecule/Filter'
 import DataPickers from '../styledComponent/Molecule/DatePicker'
 // d3
@@ -150,7 +149,7 @@ const Metrics: React.FC<MetricsProps> = (props) => {
             .range([height - margin.bottom, margin.top]);
 
         _svg.append("g")
-            .attr("fill", basicBlue)
+            .attr("fill", BASIC_BLUE)
             .selectAll("rect")
             .data(bins)
             .join("rect")
@@ -275,7 +274,7 @@ const Metrics: React.FC<MetricsProps> = (props) => {
 
     useEffect(() => {
         chart(defaultBandWidth);
-        console.log('ölkjhgfdfghjkjhgfd ', history,' state: ', history.location.state );
+        console.log('ölkjhgfdfghjkjhgfd ', history, ' state: ', history.location.state);
         // if (history.location.state){
         //     console.log('in stateäää');
         //     // history.go(-1);
@@ -283,16 +282,16 @@ const Metrics: React.FC<MetricsProps> = (props) => {
         return () => { chart(defaultBandWidth); }
     }, []);
     return (
-        <StandardLayout /* bColor={basicGold} */ minWidth='772px' top='50px' wrap='column'>
+        <StandardLayout /* bColor={basicGold} */ minWidth='772px' top='50px' direction='column'>
 
-            <VerticalLayout bColor={basicGold} padding='15px 15px' margin={'15px 15px'} shadow={'0px 4px 2px rgba(0,0,0,.2)'} justify='flex-start'>
+            <VerticalLayout bColor={BASIC_GOLD} padding='15px 15px' margin={'15px 15px'} shadow={'0px 4px 2px rgba(0,0,0,.2)'} justify='flex-start'>
                 <DataPickers top='0px' />
                 <CheckboxFilter checkboxes={{ columnOne: checkboxColumnOne, columnTwo: checkboxColumnTwo }} onCheckboxChanged={onCheckboxChanged} />
 
             </VerticalLayout>
-            <VerticalLayout bColor={basicGold} padding='15px 15px' margin={'15px 15px'} shadow={'2px 4px 2px rgba(0,0,0,.2)'} >
+            <VerticalLayout bColor={BASIC_GOLD} padding='15px 15px' margin={'15px 15px'} shadow={'2px 4px 2px rgba(0,0,0,.2)'} >
                 <div style={{ margin: '5px 0 5px 45px' }}>
-                    <SliderInput type="range" name="desitySlider" width={'200px'} thumpColor={basicBlue} id="desitySlider" min="10" max="100" value={bandWidth} onChange={(e: { target: HTMLInputElement; }) => {
+                    <SliderInput type="range" name="desitySlider" width={'200px'} thumpColor={BASIC_BLUE} id="desitySlider" min="10" max="100" value={bandWidth} onChange={(e: { target: HTMLInputElement; }) => {
                         setBandwidth(Number(e.target.value));
                         updateBandWidth(Number(e.target.value));
                     }} />

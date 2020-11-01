@@ -1,17 +1,14 @@
-import { API_BASE_URL, ACCESS_TOKEN } from '../constants';
+import { API_BASE_URL, ACCESS_TOKEN, RequestTyp } from '../constants';
 
-const request = (options) => {
+const request = (options: any) => {
     const headers = new Headers({
         'Content-Type': 'application/json',
     })
-
     if (localStorage.getItem(ACCESS_TOKEN)) {
         headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
     }
-
     const defaults = { headers: headers };
     options = Object.assign({}, defaults, options);
-
     return fetch(options.url, options)
         .then(response =>
             response.json().then(json => {
@@ -33,7 +30,30 @@ export function getCurrentUser() {
     });
 }
 
-export function login(loginRequest) {
+export function getAllUsers() {
+    if (!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+    return request({
+        url: API_BASE_URL + "/users",
+        method: 'Get',
+    });
+}
+
+export function getUser(userQuery: string, requestType: RequestTyp) {
+    if (!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+    var query: string = requestType === RequestTyp.Email ? "email" : "name";
+    query += "/" + userQuery;
+    console.log('getUser: ', "/user/" + query);
+    return request({
+        url: API_BASE_URL + "/user/" + query,
+        method: 'Get',
+    });
+}
+
+export function login(loginRequest: any) {
     return request({
         url: API_BASE_URL + "/auth/login",
         method: 'POST',
@@ -41,7 +61,7 @@ export function login(loginRequest) {
     });
 }
 
-export function signup(signupRequest) {
+export function signup(signupRequest: any) {
     return request({
         url: API_BASE_URL + "/auth/signup",
         method: 'POST',

@@ -1,33 +1,31 @@
-import React, { Component, useEffect } from 'react';
-import { Link, NavLink, useHistory } from 'react-router-dom';
+import React, {  useEffect } from 'react';
+import {  NavLink, useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import logo from '../logo.svg';
 import Alert from 'react-s-alert';
 
 import './AppHeader.css';
-import { createMuiTheme } from '@material-ui/core/styles';
+// import { createMuiTheme } from '@material-ui/core/styles';
 
-const theme = createMuiTheme({
-    palette: {
-        primary: {
-            light: '#757ce8',
-            main: '#3f50b5',
-            dark: '#002884',
-            contrastText: '#fff',
-        },
-        secondary: {
-            light: '#ff7961',
-            main: '#f44336',
-            dark: '#ba000d',
-            contrastText: '#000',
-        },
-    },
-});
+// const theme = createMuiTheme({
+//     palette: {
+//         primary: {
+//             light: '#757ce8',
+//             main: '#3f50b5',
+//             dark: '#002884',
+//             contrastText: '#fff',
+//         },
+//         secondary: {
+//             light: '#ff7961',
+//             main: '#f44336',
+//             dark: '#ba000d',
+//             contrastText: '#000',
+//         },
+//     },
+// });
 
 const useStyles = makeStyles(theme => ({
     formControl: {
@@ -69,7 +67,7 @@ const AppHeader: React.FC<HeaderState> = (props) => {
     }
 
     useEffect(() => {
-        console.log('header history: ', props.authenticated);
+        // console.log('header history: ', props.authenticated);
 
     });
 

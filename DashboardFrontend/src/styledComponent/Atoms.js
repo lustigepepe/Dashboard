@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components'
-import { Checkbox, Divider } from '@material-ui/core';
+import { Checkbox } from '@material-ui/core';
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import React from 'react';
 
